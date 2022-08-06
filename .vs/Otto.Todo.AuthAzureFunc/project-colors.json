@@ -1,0 +1,31 @@
+{
+  "Version": 1,
+  "ProjectMap": {
+    "11604133-d814-413e-9432-7d433f4b3a2d": {
+      "ProjectGuid": "11604133-d814-413e-9432-7d433f4b3a2d",
+      "DisplayName": "Otto.Todo.AuthAzureFunc.API",
+      "ColorIndex": 0
+    },
+    "fa8782e4-dcc5-4a35-9ea1-ddbd4662d108": {
+      "ProjectGuid": "fa8782e4-dcc5-4a35-9ea1-ddbd4662d108",
+      "DisplayName": "Otto.Todo.AuthAzureFunc.Core",
+      "ColorIndex": 1
+    },
+    "b473c2f4-cb71-4334-a8bd-002a05c9985e": {
+      "ProjectGuid": "b473c2f4-cb71-4334-a8bd-002a05c9985e",
+      "DisplayName": "Otto.Todo.AuthAzureFunc.Repository",
+      "ColorIndex": 2
+    },
+    "0bb9fb80-4c36-46d6-b38c-407274f16d2d": {
+      "ProjectGuid": "0bb9fb80-4c36-46d6-b38c-407274f16d2d",
+      "DisplayName": "Otto.Todo.AuthAzureFunc.Models",
+      "ColorIndex": 3
+    },
+    "280ae994-5ea6-47b0-a802-5ae8e3cea3bd": {
+      "ProjectGuid": "280ae994-5ea6-47b0-a802-5ae8e3cea3bd",
+      "DisplayName": "Otto.Todo.AuthAzureFunc.Test",
+      "ColorIndex": 4
+    }
+  },
+  "NextColorIndex": 5
+}
