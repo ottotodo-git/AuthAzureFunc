@@ -1,0 +1,49 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31919.166
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Otto.Todo.AuthAzureFunc.API", "Otto.Todo.AuthAzureFunc.API\Otto.Todo.AuthAzureFunc.API.csproj", "{11604133-D814-413E-9432-7D433F4B3A2D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Otto.Todo.AuthAzureFunc.Core", "Otto.Todo.AuthAzureFunc.Core\Otto.Todo.AuthAzureFunc.Core.csproj", "{FA8782E4-DCC5-4A35-9EA1-DDBD4662D108}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Otto.Todo.AuthAzureFunc.Repository", "Otto.Todo.AuthAzureFunc.Repository\Otto.Todo.AuthAzureFunc.Repository.csproj", "{B473C2F4-CB71-4334-A8BD-002A05C9985E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Otto.Todo.AuthAzureFunc.Models", "Otto.Todo.AuthAzureFunc.Models\Otto.Todo.AuthAzureFunc.Models.csproj", "{0BB9FB80-4C36-46D6-B38C-407274F16D2D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Otto.Todo.AuthAzureFunc.Test", "Otto.Todo.AuthAzureFunc.Test\Otto.Todo.AuthAzureFunc.Test.csproj", "{280AE994-5EA6-47B0-A802-5AE8E3CEA3BD}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{11604133-D814-413E-9432-7D433F4B3A2D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{11604133-D814-413E-9432-7D433F4B3A2D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{11604133-D814-413E-9432-7D433F4B3A2D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{11604133-D814-413E-9432-7D433F4B3A2D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FA8782E4-DCC5-4A35-9EA1-DDBD4662D108}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FA8782E4-DCC5-4A35-9EA1-DDBD4662D108}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FA8782E4-DCC5-4A35-9EA1-DDBD4662D108}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FA8782E4-DCC5-4A35-9EA1-DDBD4662D108}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B473C2F4-CB71-4334-A8BD-002A05C9985E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B473C2F4-CB71-4334-A8BD-002A05C9985E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B473C2F4-CB71-4334-A8BD-002A05C9985E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B473C2F4-CB71-4334-A8BD-002A05C9985E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0BB9FB80-4C36-46D6-B38C-407274F16D2D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0BB9FB80-4C36-46D6-B38C-407274F16D2D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0BB9FB80-4C36-46D6-B38C-407274F16D2D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0BB9FB80-4C36-46D6-B38C-407274F16D2D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{280AE994-5EA6-47B0-A802-5AE8E3CEA3BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{280AE994-5EA6-47B0-A802-5AE8E3CEA3BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{280AE994-5EA6-47B0-A802-5AE8E3CEA3BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{280AE994-5EA6-47B0-A802-5AE8E3CEA3BD}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {9E3BF3B5-E314-422C-87D5-115595A9C593}
+	EndGlobalSection
+EndGlobal

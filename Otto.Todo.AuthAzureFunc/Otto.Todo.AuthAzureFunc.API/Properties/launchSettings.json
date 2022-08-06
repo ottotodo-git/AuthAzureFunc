@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "Otto.Todo.AuthAzureFunc.API": {
+      "commandName": "Project",
+      "commandLineArgs": "--port 7105",
+      "launchBrowser": false
+    }
+  }
+}
