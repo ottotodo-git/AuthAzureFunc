@@ -6,4 +6,18 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove="Services\o3z052ag.lut~" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="11.0.1" />
+    <PackageReference Include="Twilio" Version="5.78.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Otto.Todo.AuthAzureFunc.Models\Otto.Todo.AuthAzureFunc.Models.csproj" />
+    <ProjectReference Include="..\Otto.Todo.AuthAzureFunc.Repository\Otto.Todo.AuthAzureFunc.Repository.csproj" />
+  </ItemGroup>
+
 </Project>
