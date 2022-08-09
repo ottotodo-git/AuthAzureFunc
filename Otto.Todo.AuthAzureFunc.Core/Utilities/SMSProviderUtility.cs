@@ -10,13 +10,13 @@ namespace Otto.Todo.AuthAzureFunc.Core.Utilities
     {
         public static MessageResource sendSMSToCustomer(String phoneNumber)
         {
-            var accountSid = "AC298c6b87b8d597fd33b7e2756aef7723";
-            var authToken = "d65990693270a7c3f5ed579fda497cfc";
+            var accountSid = Environment.GetEnvironmentVariable("ACCOUNT_SID");
+            var authToken = Environment.GetEnvironmentVariable("AUTH_TOKEN");
             TwilioClient.Init(accountSid, authToken);
 
             var messageOptions = new CreateMessageOptions(
                 new PhoneNumber(phoneNumber));
-            messageOptions.MessagingServiceSid = "MG1b99eb35569c3c0381e155cf7dca1210";
+            messageOptions.MessagingServiceSid = Environment.GetEnvironmentVariable("MESSAGING_SERVICE_SID");
             messageOptions.Body = "Your OttoTodo verification code is: "+VerifyCode();
 
             var message = MessageResource.Create(messageOptions);
