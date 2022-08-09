@@ -7,25 +7,24 @@ using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
-using Otto.Todo.AuthAzureFunc.Core.Interfaces;
 using Otto.Todo.AuthAzureFunc.Models.DTOs;
+using Otto.Todo.AuthAzureFunc.Core.Interfaces;
 using Otto.Todo.AuthAzureFunc.Models.Models;
 
 namespace Otto.Todo.AuthAzureFunc.API
 {
-    public class RegisterUserFunc
+    public class VerifyUserFunc
     {
         private readonly IAuthCoreService _authService;
         private object responseMessage;
 
-        public RegisterUserFunc(IAuthCoreService authService)
+        public VerifyUserFunc(IAuthCoreService authService)
         {
             _authService = authService;
         }
-
-        [FunctionName("RegisterUserFunc")]
+        [FunctionName("VerifyUserFunc")]
         public async Task<IActionResult> Run(
-            [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = "v1/register")] HttpRequest req,
+            [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = "v1/verify")] HttpRequest req,
             ILogger log)
         {
             log.LogInformation("C# HTTP trigger function processed a request.");

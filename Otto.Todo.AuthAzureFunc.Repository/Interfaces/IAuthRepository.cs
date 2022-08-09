@@ -13,6 +13,6 @@ namespace Otto.Todo.AuthAzureFunc.Repository.Interfaces
 
         public Task<AuthRequest> updateUserAsync(AuthRequest auth);
 
-        public Task<AuthRequest> getUserAsync(string appId);
+        public Task<AuthRequest> getUserAsync(long userId);
     }
 }

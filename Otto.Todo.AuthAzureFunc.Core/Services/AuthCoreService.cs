@@ -24,11 +24,30 @@ namespace Otto.Todo.AuthAzureFunc.Core.Services
 
         public async Task<AuthRequestDTO> registerUserAsync(AuthRequestDTO auth)
         {
-            var data = await _repoWrapper.Auth.addUserAsync(_mapper.Map<AuthRequest>(auth));
+            auth.VerificationStatus = "NOT VERIFIED";
             //generate 6 digit SMS code and send SMS
-            var message = SMSProviderUtility.sendSMSToCustomer(auth.PhoneNumber);
+            SMSProviderUtils.sendSMSToCustomer(auth);
+            var data = await _repoWrapper.Auth.addUserAsync(_mapper.Map<AuthRequest>(auth));
             return _mapper.Map<AuthRequestDTO>(data);
-            //throw new NotImplementedException();
+        }
+
+        public async Task<AuthRequestDTO> verifyUserAsync(AuthRequestDTO auth)
+        {
+            var authUser = await _repoWrapper.Auth.getUserAsync(long.Parse(auth.UserId));
+            if (authUser.VerifyCode == long.Parse(auth.VerifyCode))
+            {
+                auth.VerificationStatus = "VERIFIED";
+                //generate ID token
+                auth.Token = JWTUtils.GenerateToken(auth);
+            }
+            await _repoWrapper.Auth.updateUserAsync(_mapper.Map<AuthRequest>(auth));
+            return auth;
+        }
+
+        public async Task<long?> ValidateTokenAsync(string token)
+        {
+            long? userId = JWTUtils.ValidateToken(token);
+            return userId;
         }
     }
 }

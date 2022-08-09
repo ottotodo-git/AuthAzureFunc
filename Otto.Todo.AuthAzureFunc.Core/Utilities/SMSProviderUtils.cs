@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Otto.Todo.AuthAzureFunc.Core.Interfaces;
+using Otto.Todo.AuthAzureFunc.Models.DTOs;
+using System;
 using System.Collections.Generic;
 using Twilio;
 using Twilio.Rest.Api.V2010.Account;
@@ -6,22 +8,23 @@ using Twilio.Types;
 
 namespace Otto.Todo.AuthAzureFunc.Core.Utilities
 {
-    public static class SMSProviderUtility
+    public static class SMSProviderUtils
     {
-        public static MessageResource sendSMSToCustomer(String phoneNumber)
+        public static void sendSMSToCustomer(AuthRequestDTO auth)
         {
             var accountSid = Environment.GetEnvironmentVariable("ACCOUNT_SID");
             var authToken = Environment.GetEnvironmentVariable("AUTH_TOKEN");
             TwilioClient.Init(accountSid, authToken);
 
             var messageOptions = new CreateMessageOptions(
-                new PhoneNumber(phoneNumber));
+                new PhoneNumber(auth.PhoneNumber));
+            auth.VerifyCode = VerifyCode();
             messageOptions.MessagingServiceSid = Environment.GetEnvironmentVariable("MESSAGING_SERVICE_SID");
-            messageOptions.Body = "Your OttoTodo verification code is: "+VerifyCode();
+            messageOptions.Body = "Your OttoTodo verification code is: "+ auth.VerifyCode;
 
             var message = MessageResource.Create(messageOptions);
             //Console.WriteLine(message.Body);
-            return message;
+            //return message;
         }
 
         public static string VerifyCode()
