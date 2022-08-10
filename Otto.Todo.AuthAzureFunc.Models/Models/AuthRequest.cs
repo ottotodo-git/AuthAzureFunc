@@ -14,7 +14,7 @@ namespace Otto.Todo.AuthAzureFunc.Models.Models
         public string Email { get; set; }
         public string Name { get; set; }
 
-        public long VerifyCode { get; set; }
+        public int VerificationCode { get; set; }
         public string VerificationStatus { get; set; }
 
 

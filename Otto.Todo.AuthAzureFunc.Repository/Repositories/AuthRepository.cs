@@ -20,15 +20,15 @@ namespace Otto.Todo.AuthAzureFunc.Repository.Repositories
         }
         public async Task<AuthRequest> addUserAsync(AuthRequest auth)
         {
-            var query = "INSERT INTO authuser (appid,name,phonenumber,email,verifycode,verificationstatus) " +
-               "VALUES (@AppId,@Name,@PhoneNumber,@Email,@VerifyCode,@VerificationStatus) returning userid;";
+            var query = "INSERT INTO authuser (appid,name,phonenumber,email,verificationcode,verificationstatus) " +
+               "VALUES (@AppId,@Name,@PhoneNumber,@Email,@VerificationCode,@VerificationStatus) returning userid;";
             auth.AppId = Guid.NewGuid().ToString();
             var parameters = new DynamicParameters();
             parameters.Add("AppId", auth.AppId, DbType.String);
             parameters.Add("Name", auth.Name, DbType.String);
             parameters.Add("PhoneNumber", auth.PhoneNumber, DbType.String);
             parameters.Add("Email", auth.Email, DbType.String);
-            parameters.Add("VerifyCode", auth.VerifyCode, DbType.String);
+            parameters.Add("VerificationCode", auth.VerificationCode, DbType.Int32);
             parameters.Add("VerificationStatus", auth.VerificationStatus, DbType.String);
 
             using (var connection = _dpContext.CreateConnection())
@@ -42,7 +42,7 @@ namespace Otto.Todo.AuthAzureFunc.Repository.Repositories
 
         public async Task<AuthRequest> getUserAsync(long userId)
         {
-            var query = "select appid,phonenumber,email,verifycode,verificationstatus from authuser where userid = @UserId";
+            var query = "select appid,phonenumber,email,verificationcode,verificationstatus from authuser where userid = @UserId";
             var parameters = new DynamicParameters();
             parameters.Add("UserId", userId, DbType.Int64);
             using (var connection = _dpContext.CreateConnection())
@@ -55,11 +55,11 @@ namespace Otto.Todo.AuthAzureFunc.Repository.Repositories
                 AuthRequest authUser = new AuthRequest()
                 {
                     UserId = userId,
-                    AppId = authuser.AppId,
-                    PhoneNumber = authuser.PhoneNumber,
-                    Email = authuser.Email,
-                    VerifyCode = authuser.VerifyCode,
-                    VerificationStatus = authuser.VerificationStatus
+                    AppId = authuser.appid,
+                    PhoneNumber = authuser.phonenumber,
+                    Email = authuser.email,
+                    VerificationCode = authuser.verificationcode,
+                    VerificationStatus = authuser.verificationstatus
                 };
                 return authUser;
 

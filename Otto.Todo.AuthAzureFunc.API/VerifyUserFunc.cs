@@ -35,7 +35,7 @@ namespace Otto.Todo.AuthAzureFunc.API
             dynamic data = JsonConvert.DeserializeObject<AuthRequestDTO>(reqBody);
             try
             {
-                responseMessage = await _authService.registerUserAsync(data);
+                responseMessage = await _authService.verifyUserAsync(data);
             }
             catch (Exception ex)
             {

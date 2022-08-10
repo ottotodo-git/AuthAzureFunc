@@ -18,9 +18,9 @@ namespace Otto.Todo.AuthAzureFunc.Core.Utilities
 
             var messageOptions = new CreateMessageOptions(
                 new PhoneNumber(auth.PhoneNumber));
-            auth.VerifyCode = VerifyCode();
+            auth.VerificationCode = VerifyCode();
             messageOptions.MessagingServiceSid = Environment.GetEnvironmentVariable("MESSAGING_SERVICE_SID");
-            messageOptions.Body = "Your OttoTodo verification code is: "+ auth.VerifyCode;
+            messageOptions.Body = "Your OttoTodo verification code is: "+ auth.VerificationCode;
 
             var message = MessageResource.Create(messageOptions);
             //Console.WriteLine(message.Body);

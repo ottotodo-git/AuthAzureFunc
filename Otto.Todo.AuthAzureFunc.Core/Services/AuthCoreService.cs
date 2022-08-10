@@ -34,19 +34,20 @@ namespace Otto.Todo.AuthAzureFunc.Core.Services
         public async Task<AuthRequestDTO> verifyUserAsync(AuthRequestDTO auth)
         {
             var authUser = await _repoWrapper.Auth.getUserAsync(long.Parse(auth.UserId));
-            if (authUser.VerifyCode == long.Parse(auth.VerifyCode))
+            if (authUser.VerificationCode == long.Parse(auth.VerificationCode))
             {
                 auth.VerificationStatus = "VERIFIED";
                 //generate ID token
-                auth.Token = JWTUtils.GenerateToken(auth);
+                auth.Token = new Token();
+                auth.Token.IdToken = JWTUtils.GenerateToken(auth);
             }
             await _repoWrapper.Auth.updateUserAsync(_mapper.Map<AuthRequest>(auth));
             return auth;
         }
 
-        public async Task<long?> ValidateTokenAsync(string token)
+        public async Task<long?> validateTokenAsync(AuthRequestDTO auth)
         {
-            long? userId = JWTUtils.ValidateToken(token);
+            long? userId = JWTUtils.ValidateToken(auth.Token.IdToken);
             return userId;
         }
     }
