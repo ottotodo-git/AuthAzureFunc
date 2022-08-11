@@ -36,6 +36,12 @@ namespace Otto.Todo.AuthAzureFunc.API
             try
             {
                 responseMessage = await _authService.validateTokenAsync(data);
+                if (responseMessage == null)
+                    return new ObjectResult(new ErrorDetails()
+                    {
+                        StatusCode = 500,
+                        ErrorMessage = "User Authentication Failed"
+                    });
             }
             catch (Exception ex)
             {
@@ -43,10 +49,7 @@ namespace Otto.Todo.AuthAzureFunc.API
                 {
                     StatusCode = 500,
                     ErrorMessage = ex.Message
-                })
-                {
-                    StatusCode = 500
-                };
+                });
             }
             //Console.WriteLine(responseMessage);
 

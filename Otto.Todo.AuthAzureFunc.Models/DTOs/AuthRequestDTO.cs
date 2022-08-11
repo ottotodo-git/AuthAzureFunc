@@ -27,6 +27,6 @@ namespace Otto.Todo.AuthAzureFunc.Models.DTOs
         public string TokenType { get; set; }
         public string IdToken { get; set; }
 
-        public string Expiry { get; set; }
+        public long Expiry { get; set; }
     }
 }
