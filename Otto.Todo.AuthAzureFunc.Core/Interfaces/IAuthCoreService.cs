@@ -12,5 +12,7 @@ namespace Otto.Todo.AuthAzureFunc.Core.Interfaces
         public Task<AuthRequestDTO> registerUserAsync(AuthRequestDTO auth);
         public Task<AuthRequestDTO> verifyUserAsync(AuthRequestDTO auth);
         public Task<long?> validateTokenAsync(AuthRequestDTO auth);
+        public Task<AuthUserDTO> getUserAsync(long userid);
+        public Task<IEnumerable<AuthUserDTO>> getUsersAsync();
     }
 }

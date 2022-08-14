@@ -54,7 +54,7 @@ namespace Otto.Todo.AuthAzureFunc.Core.Services
 
         public async Task<AuthRequestDTO> verifyUserAsync(AuthRequestDTO auth)
         {
-            var authUser = await _repoWrapper.Auth.getUserAsync(long.Parse(auth.UserId));
+            var authUser = await _repoWrapper.Auth.getAuthUserAsync(long.Parse(auth.UserId));
             if (authUser.VerificationCode == long.Parse(auth.VerificationCode))
             {
                 auth.VerificationStatus = "VERIFIED";
@@ -70,6 +70,20 @@ namespace Otto.Todo.AuthAzureFunc.Core.Services
         {
             long? userId = JWTUtils.ValidateTokenAsymetric(auth.Token.IdToken);
             return userId;
+        }
+
+        public async Task<AuthUserDTO> getUserAsync(long userid)
+        {
+            var data = await _repoWrapper.Auth.getUserAsync(userid);
+            //fetch phone and email from AD
+            return _mapper.Map<AuthUserDTO>(data);
+        }
+
+        public async Task<IEnumerable<AuthUserDTO>> getUsersAsync()
+        {
+            var data = await _repoWrapper.Auth.getUsersAsync();
+            //fetch phone and email from AD
+            return _mapper.Map<List<AuthUserDTO>>(data);
         }
     }
 }

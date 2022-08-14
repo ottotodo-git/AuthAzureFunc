@@ -39,7 +39,7 @@ namespace Otto.Todo.AuthAzureFunc.Repository.Repositories
             }
         }
 
-        public async Task<AuthRequest> getUserAsync(long userId)
+        public async Task<AuthRequest> getAuthUserAsync(long userId)
         {
             var query = "select externaluserid,appid,verificationcode,verificationstatus from authuser where userid = @UserId";
             var parameters = new DynamicParameters();
@@ -64,9 +64,60 @@ namespace Otto.Todo.AuthAzureFunc.Repository.Repositories
             }
         }
 
+        public async Task<AuthUser> getUserAsync(long userId)
+        {
+            var query = "select appid,name from authuser where userid = @UserId";
+            var parameters = new DynamicParameters();
+            parameters.Add("UserId", userId, DbType.Int64);
+            using (var connection = _dpContext.CreateConnection())
+            {
+                dynamic user = await connection.QueryFirstOrDefaultAsync<dynamic>(query, parameters);
+
+                if (user == null)
+                    return null;
+
+                AuthUser dbuser = new AuthUser()
+                {
+                    UserId = userId,
+                    AppId = user.appid,
+                    Name = user.name
+                };
+                return dbuser;
+
+            }
+        }
+
+        public async Task<IEnumerable<AuthUser>> getUsersAsync()
+        {
+            var query = "select userid,appid,name from authuser";
+            var parameters = new DynamicParameters();
+            using (var connection = _dpContext.CreateConnection())
+            {
+                IEnumerable<dynamic> userlist = await connection.QueryAsync<dynamic>(query);
+
+                if (userlist == null)
+                    return null;
+
+                List<AuthUser> getUsers = new List<AuthUser>();
+                foreach (var user in userlist)
+                {
+                    AuthUser getuser = new AuthUser
+                    {
+                        UserId = user.userid,
+                        AppId = user.appid,
+                        Name = user.name
+                    };
+                    getUsers.Add(getuser);
+                }
+
+
+                return getUsers;
+            }
+        }
+
         public async Task<AuthRequest> getUserByExternalIdAsync(string externaluserId)
         {
-            var query = "select userid,appid,verificationcode,verificationstatus from authuser where externaluserId = @ExternalUserId";
+            var query = "select userid,appid,phonenumber,email,verificationcode,verificationstatus from authuser where externaluserId = @ExternalUserId";
             var parameters = new DynamicParameters();
             parameters.Add("ExternalUserId", externaluserId, DbType.String);
             using (var connection = _dpContext.CreateConnection())

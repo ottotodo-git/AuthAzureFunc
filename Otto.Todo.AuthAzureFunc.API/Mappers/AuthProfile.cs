@@ -14,6 +14,7 @@ namespace Otto.Todo.AuthAzureFunc.API.Mappers
         public AuthProfile()
         {
             CreateMap<AuthRequest, AuthRequestDTO>().ReverseMap();
+            CreateMap<AuthUser, AuthUserDTO>().ReverseMap();
         }
     }
 }
