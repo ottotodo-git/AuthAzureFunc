@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.Graph;
 using Otto.Todo.AuthAzureFunc.Core.Interfaces;
 using Otto.Todo.AuthAzureFunc.Core.Utilities;
 using Otto.Todo.AuthAzureFunc.Models.DTOs;
@@ -27,6 +28,26 @@ namespace Otto.Todo.AuthAzureFunc.Core.Services
             auth.VerificationStatus = "NOT VERIFIED";
             //generate 6 digit SMS code and send SMS
             SMSProviderUtils.sendSMSToCustomer(auth);
+            //fetch user by phone from AD
+            var user = await AzureADB2CUtils.getUserByPhoneAsync(auth.PhoneNumber);
+            if(user.Count == 1)
+            {
+                User authUser = user.First();
+                auth.PhoneNumber = auth.PhoneNumber.Replace("+", "").Trim();
+                //check if phone matches
+                if (auth.PhoneNumber == authUser.MobilePhone)
+                {
+                    //phone already present, so enable 2FA code from user
+                    //fetch user using external Id
+                    var getUser = await _repoWrapper.Auth.getUserByExternalIdAsync(authUser.Id);
+                    var authrequest = _mapper.Map<AuthRequest>(auth);
+                    getUser.VerificationCode = authrequest.VerificationCode;
+                    //update user with new verification code
+                    var update_data = await _repoWrapper.Auth.updateUserAsync(getUser);
+                    return _mapper.Map<AuthRequestDTO>(update_data);
+                }
+            }
+            await AzureADB2CUtils.createUserAsync(auth);
             var data = await _repoWrapper.Auth.addUserAsync(_mapper.Map<AuthRequest>(auth));
             return _mapper.Map<AuthRequestDTO>(data);
         }

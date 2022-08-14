@@ -18,6 +18,8 @@ namespace Otto.Todo.AuthAzureFunc.Models.DTOs
 
         public string VerificationStatus { get; set; }
 
+        public string ExternalUserId { get; set; }
+
         public Token Token { get; set; }
 
     }
