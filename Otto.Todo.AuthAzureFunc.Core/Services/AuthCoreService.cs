@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using Azure.Storage.Blobs;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Graph;
 using Otto.Todo.AuthAzureFunc.Core.Interfaces;
 using Otto.Todo.AuthAzureFunc.Core.Utilities;
@@ -6,6 +8,7 @@ using Otto.Todo.AuthAzureFunc.Models.DTOs;
 using Otto.Todo.AuthAzureFunc.Models.Models;
 using Otto.Todo.AuthAzureFunc.Repository.Interfaces;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -29,13 +32,13 @@ namespace Otto.Todo.AuthAzureFunc.Core.Services
             //generate 6 digit SMS code and send SMS
             SMSProviderUtils.sendSMSToCustomer(auth);
             //fetch user by phone from AD
-            var user = await AzureADB2CUtils.getUserByPhoneAsync(auth.PhoneNumber);
+            var user = await AzureADB2CUtils.getUserByPhoneAsync(auth.User.PhoneNumber);
             if(user.Count == 1)
             {
                 User authUser = user.First();
-                auth.PhoneNumber = auth.PhoneNumber.Replace("+", "").Trim();
+                auth.User.PhoneNumber = auth.User.PhoneNumber.Replace("+", "").Trim();
                 //check if phone matches
-                if (auth.PhoneNumber == authUser.MobilePhone)
+                if (auth.User.PhoneNumber == authUser.MobilePhone)
                 {
                     //phone already present, so enable 2FA code from user
                     //fetch user using external Id
@@ -52,9 +55,35 @@ namespace Otto.Todo.AuthAzureFunc.Core.Services
             return _mapper.Map<AuthRequestDTO>(data);
         }
 
+        public async Task<AuthUserDTO> uploadPhotoAsync(IFormFile uploadfile, Hashtable keys)
+        {
+            var connectionString = Environment.GetEnvironmentVariable("AzureWebJobsStorage");
+            BlobServiceClient blobServiceClient = new BlobServiceClient(connectionString);
+            BlobContainerClient blobContainerClient = blobServiceClient.GetBlobContainerClient("otto-todoservice-blob");
+            BlobClient blobClient = blobContainerClient.GetBlobClient("document_store");
+            //List<TodoAttachment> listresponse = new List<TodoAttachment>();
+            String userid = keys["userid"].ToString();
+            String blobcontainerURI = Environment.GetEnvironmentVariable("BLOB_CONTAINER_URI");
+            String blobname = Environment.GetEnvironmentVariable("DOCUMENT_BLOB_NAME");
+            //FileStream  fileStream = uploadfile.;
+            var blobpath = "document_store/" + keys["userid"] + "/" + uploadfile.FileName;
+            var response = await blobContainerClient.UploadBlobAsync(blobpath, uploadfile.OpenReadStream());
+            if (response.GetRawResponse().Status == 201)
+            {
+                AuthRequest authRequest = new AuthRequest();
+                AuthUser authUser = new AuthUser();
+                authUser.UserId = long.Parse(userid);
+                authUser.ProfilePhotoBlob = blobcontainerURI + blobpath;
+                authRequest.User = authUser;
+                var data = await _repoWrapper.Auth.updateUserAsync(authRequest);
+                return _mapper.Map<AuthUserDTO>(data.User);
+            }
+            return null;
+        }
+
         public async Task<AuthRequestDTO> verifyUserAsync(AuthRequestDTO auth)
         {
-            var authUser = await _repoWrapper.Auth.getAuthUserAsync(long.Parse(auth.UserId));
+            var authUser = await _repoWrapper.Auth.getAuthUserAsync(long.Parse(auth.User.UserId));
             if (authUser.VerificationCode == long.Parse(auth.VerificationCode))
             {
                 auth.VerificationStatus = "VERIFIED";

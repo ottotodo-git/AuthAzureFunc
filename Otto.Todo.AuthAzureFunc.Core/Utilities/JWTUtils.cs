@@ -19,7 +19,7 @@ namespace Otto.Todo.AuthAzureFunc.Core.Utilities
             var key = Encoding.ASCII.GetBytes(Environment.GetEnvironmentVariable("SECRET"));
             var tokenDescriptor = new SecurityTokenDescriptor
             {
-                Subject = new ClaimsIdentity(new[] { new Claim("id", authuser.UserId.ToString()) }),
+                Subject = new ClaimsIdentity(new[] { new Claim("id", authuser.User.UserId.ToString()) }),
                 Expires = DateTime.UtcNow.AddDays(7),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
@@ -43,9 +43,9 @@ namespace Otto.Todo.AuthAzureFunc.Core.Utilities
             var jwt = new JwtSecurityToken(
                 audience: "otto-todo-frontend",
                 issuer: "otto-todo-authservice",
-                claims: new Claim[] { new Claim("id", authuser.UserId), 
-                                      new Claim("appid", authuser.AppId),
-                                      new Claim("phonenumber", authuser.PhoneNumber),
+                claims: new Claim[] { new Claim("id", authuser.User.UserId), 
+                                      new Claim("appid", authuser.User.AppId),
+                                      new Claim("phonenumber", authuser.User.PhoneNumber),
                 },
                 notBefore: jwtDate,
                 expires: jwtDate.AddHours(2),

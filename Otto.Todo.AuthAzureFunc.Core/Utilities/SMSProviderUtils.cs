@@ -17,7 +17,7 @@ namespace Otto.Todo.AuthAzureFunc.Core.Utilities
             TwilioClient.Init(accountSid, authToken);
 
             var messageOptions = new CreateMessageOptions(
-                new PhoneNumber(auth.PhoneNumber));
+                new PhoneNumber(auth.User.PhoneNumber));
             auth.VerificationCode = VerifyCode();
             messageOptions.MessagingServiceSid = Environment.GetEnvironmentVariable("MESSAGING_SERVICE_SID");
             messageOptions.Body = "Your OttoTodo verification code is: "+ auth.VerificationCode;

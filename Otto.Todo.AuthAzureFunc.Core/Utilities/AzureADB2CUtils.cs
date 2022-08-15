@@ -45,14 +45,14 @@ namespace Otto.Todo.AuthAzureFunc.Core.Utilities
         public async static Task<AuthRequestDTO> createUserAsync(AuthRequestDTO auth)
         {
             GraphServiceClient graphClient = getGraphClient();
-            var phone_trim = auth.PhoneNumber.Substring(auth.PhoneNumber.Length - 5, 5);
-            var username = auth.Name + "_" + phone_trim + "@neelnagahotmail.onmicrosoft.com";
+            var phone_trim = auth.User.PhoneNumber.Substring(auth.User.PhoneNumber.Length - 5, 5);
+            var username = auth.User.Name + "_" + phone_trim + "@neelnagahotmail.onmicrosoft.com";
             var user = new User
             {
                 AccountEnabled = true,
-                DisplayName = auth.Name,
-                MailNickname = auth.Name,
-                MobilePhone = auth.PhoneNumber,
+                DisplayName = auth.User.Name,
+                MailNickname = auth.User.Name,
+                MobilePhone = auth.User.PhoneNumber,
                 UserPrincipalName = username,
                 PasswordProfile = new PasswordProfile
                 {

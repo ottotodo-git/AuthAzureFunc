@@ -8,11 +8,7 @@ namespace Otto.Todo.AuthAzureFunc.Models.DTOs
 {
     public class AuthRequestDTO
     {
-        public string UserId { get; set; }
-        public string AppId { get; set; }
-        public string PhoneNumber { get; set; }
-        public string Email { get; set; }
-        public string Name { get; set; }
+        public AuthUserDTO User { get; set; }
 
         public string VerificationCode { get; set; }
 
@@ -24,11 +20,22 @@ namespace Otto.Todo.AuthAzureFunc.Models.DTOs
 
     }
 
-    public class Token
-    {
-        public string TokenType { get; set; }
-        public string IdToken { get; set; }
+}
 
-        public long Expiry { get; set; }
-    }
+public class AuthUserDTO
+{
+    public string UserId { get; set; }
+    public string AppId { get; set; }
+    public string PhoneNumber { get; set; }
+    public string Email { get; set; }
+    public string Name { get; set; }
+    public string ProfilePhotoBlob { get; set; }
+}
+
+public class Token
+{
+    public string TokenType { get; set; }
+    public string IdToken { get; set; }
+
+    public long Expiry { get; set; }
 }

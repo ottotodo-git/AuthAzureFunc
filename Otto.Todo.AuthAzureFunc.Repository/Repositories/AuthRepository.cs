@@ -22,11 +22,11 @@ namespace Otto.Todo.AuthAzureFunc.Repository.Repositories
         {
             var query = "INSERT INTO authuser (externaluserid,appid,name,verificationcode,verificationstatus) " +
                "VALUES (@ExternalUserId,@AppId,@Name,@VerificationCode,@VerificationStatus) returning userid;";
-            auth.AppId = Guid.NewGuid().ToString();
+            auth.User.AppId = Guid.NewGuid().ToString();
             var parameters = new DynamicParameters();
             parameters.Add("ExternalUserId", auth.ExternalUserId, DbType.String);
-            parameters.Add("AppId", auth.AppId, DbType.String);
-            parameters.Add("Name", auth.Name, DbType.String);
+            parameters.Add("AppId", auth.User.AppId, DbType.String);
+            parameters.Add("Name", auth.User.Name, DbType.String);
             parameters.Add("VerificationCode", auth.VerificationCode, DbType.Int32);
             parameters.Add("VerificationStatus", auth.VerificationStatus, DbType.String);
 
@@ -34,7 +34,7 @@ namespace Otto.Todo.AuthAzureFunc.Repository.Repositories
             {
                 //var id = connection.QuerySingleAsync<int>(query, parameters);
                 var row = await connection.QuerySingleOrDefaultAsync<dynamic>(query, parameters);
-                auth.UserId = row.userid;
+                auth.User.UserId = row.userid;
                 return auth;
             }
         }
@@ -53,9 +53,12 @@ namespace Otto.Todo.AuthAzureFunc.Repository.Repositories
 
                 AuthRequest authUser = new AuthRequest()
                 {
-                    UserId = userId,
-                    ExternalUserId = authuser.ExternalUserId,
-                    AppId = authuser.appid,
+                    User = new AuthUser()
+                    {
+                        UserId = userId,
+                        AppId = authuser.appid
+                    },
+                    ExternalUserId = authuser.ExternalUserId,               
                     VerificationCode = authuser.verificationcode,
                     VerificationStatus = authuser.verificationstatus
                 };
@@ -129,9 +132,12 @@ namespace Otto.Todo.AuthAzureFunc.Repository.Repositories
 
                 AuthRequest authUser = new AuthRequest()
                 {
-                    UserId = authuser.userid,
+                    User = new AuthUser()
+                    {
+                        UserId = authuser.userid,
+                        AppId = authuser.appid
+                    },
                     ExternalUserId = externaluserId,
-                    AppId = authuser.appid,
                     VerificationCode = authuser.verificationcode,
                     VerificationStatus = authuser.verificationstatus
                 };
@@ -142,10 +148,11 @@ namespace Otto.Todo.AuthAzureFunc.Repository.Repositories
 
         public async Task<AuthRequest> updateUserAsync(AuthRequest auth)
         {
-            var query = "update authuser set VerificationStatus=@VerificationStatus,VerificationCode=@VerificationCode where userid = @UserId and appid = @AppId";
+            var query = "update authuser set ProfilePhotoBlob=@ProfilePhotoBlob,VerificationStatus=@VerificationStatus,VerificationCode=@VerificationCode where userid = @UserId and appid = @AppId";
             var parameters = new DynamicParameters();
-            parameters.Add("UserId", auth.UserId, DbType.Int64);
-            parameters.Add("AppId", auth.AppId, DbType.String);
+            parameters.Add("UserId", auth.User.UserId, DbType.Int64);
+            parameters.Add("AppId", auth.User.AppId, DbType.String);
+            parameters.Add("ProfilePhotoBlob", auth.User.ProfilePhotoBlob, DbType.String);
             parameters.Add("VerificationCode", auth.VerificationCode, DbType.Int32);
             parameters.Add("VerificationStatus", auth.VerificationStatus, DbType.String);
 
