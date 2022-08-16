@@ -60,13 +60,12 @@ namespace Otto.Todo.AuthAzureFunc.Core.Services
             var connectionString = Environment.GetEnvironmentVariable("AzureWebJobsStorage");
             BlobServiceClient blobServiceClient = new BlobServiceClient(connectionString);
             BlobContainerClient blobContainerClient = blobServiceClient.GetBlobContainerClient("otto-todoservice-blob");
-            BlobClient blobClient = blobContainerClient.GetBlobClient("document_store");
             //List<TodoAttachment> listresponse = new List<TodoAttachment>();
             String userid = keys["userid"].ToString();
             String blobcontainerURI = Environment.GetEnvironmentVariable("BLOB_CONTAINER_URI");
-            String blobname = Environment.GetEnvironmentVariable("DOCUMENT_BLOB_NAME");
+            String blobname = Environment.GetEnvironmentVariable("IMAGE_BLOB_NAME");
             //FileStream  fileStream = uploadfile.;
-            var blobpath = "document_store/" + keys["userid"] + "/" + uploadfile.FileName;
+            var blobpath = blobname + "/" + userid + "/" + uploadfile.FileName;
             var response = await blobContainerClient.UploadBlobAsync(blobpath, uploadfile.OpenReadStream());
             if (response.GetRawResponse().Status == 201)
             {

@@ -25,7 +25,7 @@ namespace Otto.Todo.AuthAzureFunc.API
 
         [FunctionName("UploadPhotoFunc")]
         public async Task<IActionResult> Run(
-            [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)] HttpRequest req,
+            [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = "v1/upload")] HttpRequest req,
             ILogger log)
         {
             log.LogInformation("C# HTTP trigger function processed a request.");
@@ -37,7 +37,7 @@ namespace Otto.Todo.AuthAzureFunc.API
                 IFormFile uploadfile = req.Form.Files[0];
                 Hashtable uploadKeys = new Hashtable();
                 uploadKeys.Add("userid", req.Form["userid"]);
-                var responseMessage = await _authService.uploadPhotoAsync(uploadfile, uploadKeys);
+                responseMessage = await _authService.uploadPhotoAsync(uploadfile, uploadKeys);
             }
             
 

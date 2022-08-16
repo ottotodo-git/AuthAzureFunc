@@ -7,5 +7,8 @@ create table user
 	name varchar(100),
 	phonenumber varchar(100),
 	email varchar(100),
-	verificationcode varchar(100)
+	verificationcode varchar(100),
+	verificationstatus varchar(30),
+	externaluserid varchar(255),
+	profilephotoblob varchar(255)
 );
