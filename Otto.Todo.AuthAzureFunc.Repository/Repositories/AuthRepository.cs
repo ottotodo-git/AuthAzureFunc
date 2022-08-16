@@ -148,7 +148,7 @@ namespace Otto.Todo.AuthAzureFunc.Repository.Repositories
 
         public async Task<AuthRequest> updateUserAsync(AuthRequest auth)
         {
-            var query = "update authuser set ProfilePhotoBlob=@ProfilePhotoBlob,VerificationStatus=@VerificationStatus,VerificationCode=@VerificationCode where userid = @UserId and appid = @AppId";
+            var query = "update authuser set ProfilePhotoBlob=@ProfilePhotoBlob,VerificationStatus=@VerificationStatus,VerificationCode=@VerificationCode where userid = @UserId";
             var parameters = new DynamicParameters();
             parameters.Add("UserId", auth.User.UserId, DbType.Int64);
             parameters.Add("AppId", auth.User.AppId, DbType.String);
