@@ -57,7 +57,7 @@ namespace Otto.Todo.AuthAzureFunc.Core.Services
 
         public void inviteUserAsync(long phone)
         {
-            SMSInviteUtil.sendSMSToCustomer(phone);
+            SMSProviderUtils.sendInviteSMSToCustomer(phone);
         }
         public async Task<AuthUserDTO> uploadPhotoAsync(IFormFile uploadfile, Hashtable keys)
         {
