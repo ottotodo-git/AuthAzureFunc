@@ -33,7 +33,7 @@ namespace Otto.Todo.AuthAzureFunc.Core.Services
             SMSProviderUtils.sendSMSToCustomer(auth);
             //fetch user by phone from AD
             var user = await AzureADB2CUtils.getUserByPhoneAsync(auth.User.PhoneNumber);
-            if(user.Count == 1)
+            if (user.Count == 1)
             {
                 User authUser = user.First();
                 auth.User.PhoneNumber = auth.User.PhoneNumber.Replace("+", "").Trim();
@@ -55,6 +55,10 @@ namespace Otto.Todo.AuthAzureFunc.Core.Services
             return _mapper.Map<AuthRequestDTO>(data);
         }
 
+        public void inviteUserAsync(long phone)
+        {
+            SMSProviderUtils.sendInviteSMSToCustomer(phone);
+        }
         public async Task<AuthUserDTO> uploadPhotoAsync(IFormFile uploadfile, Hashtable keys)
         {
             var connectionString = Environment.GetEnvironmentVariable("AzureWebJobsStorage");

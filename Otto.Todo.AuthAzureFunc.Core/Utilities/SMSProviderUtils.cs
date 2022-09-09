@@ -27,6 +27,22 @@ namespace Otto.Todo.AuthAzureFunc.Core.Utilities
             //return message;
         }
 
+        public static void sendInviteSMSToCustomer(long phone)
+        {
+            var accountSid = Environment.GetEnvironmentVariable("ACCOUNT_SID");
+            var authToken = Environment.GetEnvironmentVariable("AUTH_TOKEN");
+            TwilioClient.Init(accountSid, authToken);
+
+            var messageOptions = new CreateMessageOptions(
+                new PhoneNumber(phone.ToString()));
+            messageOptions.MessagingServiceSid = Environment.GetEnvironmentVariable("MESSAGING_SERVICE_SID");
+            messageOptions.Body = "I'm inviting you to use (#name) app ";
+
+            var message = MessageResource.Create(messageOptions);
+            //Console.WriteLine(message.Body);
+            //return message;
+        }
+
         public static string VerifyCode()
         {
             Random random = new Random();
