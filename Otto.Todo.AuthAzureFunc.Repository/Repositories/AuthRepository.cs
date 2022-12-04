@@ -69,7 +69,7 @@ namespace Otto.Todo.AuthAzureFunc.Repository.Repositories
 
         public async Task<AuthUser> getUserAsync(long userId)
         {
-            var query = "select appid,name from authuser where userid = @UserId";
+            var query = "select appid,name,profilephotoblob from authuser where userid = @UserId";
             var parameters = new DynamicParameters();
             parameters.Add("UserId", userId, DbType.Int64);
             using (var connection = _dpContext.CreateConnection())
@@ -83,7 +83,8 @@ namespace Otto.Todo.AuthAzureFunc.Repository.Repositories
                 {
                     UserId = userId,
                     AppId = user.appid,
-                    Name = user.name
+                    Name = user.name,
+                    ProfilePhotoBlob = user.profilephotoblob
                 };
                 return dbuser;
 
@@ -92,7 +93,7 @@ namespace Otto.Todo.AuthAzureFunc.Repository.Repositories
 
         public async Task<IEnumerable<AuthUser>> getUsersAsync()
         {
-            var query = "select userid,appid,name from authuser";
+            var query = "select userid,appid,name,profilephotoblob from authuser";
             var parameters = new DynamicParameters();
             using (var connection = _dpContext.CreateConnection())
             {
@@ -108,7 +109,8 @@ namespace Otto.Todo.AuthAzureFunc.Repository.Repositories
                     {
                         UserId = user.userid,
                         AppId = user.appid,
-                        Name = user.name
+                        Name = user.name,
+                        ProfilePhotoBlob = user.profilephotoblob 
                     };
                     getUsers.Add(getuser);
                 }
